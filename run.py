@@ -43,7 +43,8 @@ def welcomer():
           "\n"
           "* I can tell the time/date/year\n"
           "* I can talk to you\n"
-          "* I can tell you a joke\n")
+          "* I can tell you a joke\n"
+          "* I can remember things for you")
     newno = open("data/new.py", "w")
     newno.write("new = False")
     input("Have Fun with your new Virtual Friend!\n"
@@ -59,7 +60,8 @@ def main():
     print("\n"
           "Your Virtual Friend is waiting for a responce!")
     print("\n"
-          "1. Tell a joke   2. What is the time\n"
+          "1. Tell a joke   2. What is the time\n\n"
+          "   3. Remember something for me\n"
           "               or\n"
           "    Type anything to talk to me!\n")
     choice = user_choice()
@@ -75,6 +77,37 @@ def main():
         input("The Time is currently:\n"
               "{}".format(time.ctime()))
         main()
+    if choice == "3":
+        from VFdata import remember
+        if remember.text == None:
+            clear_screen()
+            print("Type something for me to remember!")
+            choice = user_choice()
+            rem = open("VFdata/remember.py", "w")
+            rem.write("text = '{}'".format(choice))
+            input("Come Back here to see your message!")
+            rem.close()
+            subprocess.call((sys.executable, "run.py"))
+        else:
+            from VFdata import remember
+            clear_screen()
+            print("I remember what you said here you go!\n"
+                  "\n"
+                  "{}".format(remember.text))
+            print("\n"
+                  "1. Delete the message  2. Save and Exit")
+            choice = user_choice()
+            if choice == "1":
+                clear_screen()
+                rem = open("VFdata/remember.py", "w")
+                rem.write("text = None")
+                input("Message Deleted!")
+                rem.close()
+                subprocess.call((sys.executable, "run.py"))
+            if choice == "2":
+                main()
+                
+        
     else:
         clear_screen()
         from VFdata import speach
